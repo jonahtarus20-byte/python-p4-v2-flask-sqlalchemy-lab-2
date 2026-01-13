@@ -14,7 +14,7 @@ def pytest_itemcollected(item):
 
 @pytest.fixture(scope='session', autouse=True)
 def setup_database():
-    os.makedirs('instance', exist_ok=True)
+    os.makedirs('server/instance', exist_ok=True)
     with app.app_context():
         db.create_all()
         yield
