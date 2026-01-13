@@ -14,7 +14,11 @@ def pytest_itemcollected(item):
 
 @pytest.fixture(scope='session', autouse=True)
 def setup_database():
-    os.makedirs('server/instance', exist_ok=True)
+    db_uri = app.config['SQLALCHEMY_DATABASE_URI']
+    if db_uri.startswith('sqlite:///'):
+        db_path = db_uri.replace('sqlite:///', '')
+        db_dir = os.path.dirname(db_path)
+        os.makedirs(db_dir, exist_ok=True)
     with app.app_context():
         db.create_all()
         yield
