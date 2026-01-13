@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import os
 import pytest
 from app import app, db
 
@@ -13,6 +14,7 @@ def pytest_itemcollected(item):
 
 @pytest.fixture(scope='session', autouse=True)
 def setup_database():
+    os.makedirs('instance', exist_ok=True)
     with app.app_context():
         db.create_all()
         yield
